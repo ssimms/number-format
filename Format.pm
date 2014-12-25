@@ -537,8 +537,11 @@ sub format_number
     $precision = $self->{decimal_digits}     unless defined $precision;
     $trailing_zeroes = $self->{decimal_fill} unless defined $trailing_zeroes;
 
+    # Warn if undefined
+    carp 'Use of unitialized value $number in format_number' unless defined $number;
+
     # Handle negative numbers
-    my $sign = $number <=> 0;
+    my $sign = defined $number ? $number <=> 0 : 0;
     $number = abs($number) if $sign < 0;
     $number = $self->round($number, $precision); # round off $number
 
